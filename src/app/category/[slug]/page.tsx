@@ -47,11 +47,23 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     notFound();
   }
   
+  // 获取分类的中文显示名称
+  const categoryDisplay = filteredBlogs[0].categoryDisplay || decodedCategory;
+  
   // 获取该分类下的所有标签
   const categoryTags = new Set<string>();
+  // 标签显示名称映射
+  const tagDisplayMap: Record<string, string> = {};
+  
   filteredBlogs.forEach((blog: any) => {
     if (blog.tags && Array.isArray(blog.tags)) {
-      blog.tags.forEach((tag: string) => categoryTags.add(tag));
+      blog.tags.forEach((tag: string, index: number) => {
+        categoryTags.add(tag);
+        // 记录标签显示名称
+        if (blog.tagsDisplay && blog.tagsDisplay[index]) {
+          tagDisplayMap[tag] = blog.tagsDisplay[index];
+        }
+      });
     }
   });
 
@@ -59,7 +71,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     <div className="max-w-6xl mx-auto px-4 py-8">
       <div className="flex flex-col md:flex-row gap-8">
         <div className="md:w-2/3">
-          <h1 className="text-3xl font-bold mb-8">分类: {decodedCategory}</h1>
+          <h1 className="text-3xl font-bold mb-8">分类: {categoryDisplay}</h1>
           <p className="text-gray-600 mb-6">该分类下共有 {filteredBlogs.length} 篇文章</p>
           
           <div className="space-y-8">
@@ -92,10 +104,10 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                   <div className="flex items-center gap-1">
                     <Tag className="h-3 w-3 text-gray-500" />
                     <div className="flex flex-wrap gap-1">
-                      {blog.tags.map((tag: string) => (
+                      {blog.tags.map((tag: string, index: number) => (
                         <Link key={tag} href={`/tag/${encodeURIComponent(tag)}`}>
                           <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-md hover:bg-gray-200 transition-colors">
-                            {tag}
+                            {blog.tagsDisplay && blog.tagsDisplay[index] ? blog.tagsDisplay[index] : tag}
                           </span>
                         </Link>
                       ))}
@@ -116,16 +128,20 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             <div className="bg-gray-40 p-6 rounded-lg shadow-sm">
               <h3 className="text-lg font-semibold mb-4 flex items-center">
                 <Tag className="h-5 w-5 mr-2 text-gray-600" />
-                {decodedCategory} 分类下的标签
+                {categoryDisplay} 分类下的标签
               </h3>
               <div>
                 {/* 使用 TagCloud 组件显示所有标签 */}
                 <TagCloud 
                   showCount={true} 
                   useFixedSize={true}
-                  customTags={Array.from(categoryTags).map(tag => ({ tag, count: filteredBlogs.filter(blog => 
-                    blog.tags && Array.isArray(blog.tags) && blog.tags.includes(tag)
-                  ).length }))} 
+                  customTags={Array.from(categoryTags).map(tag => ({ 
+                    tag, 
+                    count: filteredBlogs.filter(blog => 
+                      blog.tags && Array.isArray(blog.tags) && blog.tags.includes(tag)
+                    ).length,
+                    displayName: tagDisplayMap[tag] || tag
+                  }))} 
                 />
               </div>
               <div className="mt-4 text-right">

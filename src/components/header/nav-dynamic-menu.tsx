@@ -10,15 +10,21 @@ export function useCategoriesMenu(): MenuItem {
   
   useEffect(() => {
     const categorySet = new Set<string>()
+    // 分类显示名称映射
+    const categoryDisplayMap: Record<string, string> = {}
     
     allBlogs.forEach((blog: any) => {
       if (blog.category) {
         categorySet.add(blog.category)
+        // 记录分类显示名称
+        if (blog.categoryDisplay) {
+          categoryDisplayMap[blog.category] = blog.categoryDisplay
+        }
       }
     })
     
     const categoryItems = Array.from(categorySet).map(category => ({
-      title: category,
+      title: categoryDisplayMap[category] || category,
       href: `/category/${encodeURIComponent(category)}`
     }))
     

@@ -47,10 +47,24 @@ export default async function TagPage({ params }: TagPageProps) {
   if (filteredBlogs.length === 0) {
     notFound();
   }
+  
+  // 获取标签的中文显示名称
+  let tagDisplay = decodedTag;
+  
+  // 循环查找标签的中文显示名称
+  for (const blog of filteredBlogs) {
+    if (blog.tags && blog.tagsDisplay) {
+      const tagIndex = blog.tags.indexOf(decodedTag);
+      if (tagIndex !== -1 && blog.tagsDisplay[tagIndex]) {
+        tagDisplay = blog.tagsDisplay[tagIndex];
+        break;
+      }
+    }
+  }
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">标签: {decodedTag}</h1>
+      <h1 className="text-3xl font-bold mb-8">标签: {tagDisplay}</h1>
       <p className="text-gray-600 mb-6">该标签下共有 {filteredBlogs.length} 篇文章</p>
       
       <div className="space-y-8">
@@ -84,7 +98,7 @@ export default async function TagPage({ params }: TagPageProps) {
                     <Bookmark className="h-3 w-3 text-blue-600" />
                     <Link href={`/category/${encodeURIComponent(blog.category)}`}>
                       <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200 transition-colors">
-                        {blog.category}
+                        {blog.categoryDisplay || blog.category}
                       </span>
                     </Link>
                   </div>

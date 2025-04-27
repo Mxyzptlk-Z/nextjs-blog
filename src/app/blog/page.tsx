@@ -17,9 +17,16 @@ export default function BlogPage() {
 
   // 获取所有分类
   const categories = new Set<string>();
+  // 分类显示名称映射
+  const categoryDisplayMap: Record<string, string> = {};
+  
   allBlogs.forEach((blog: any) => {
     if (blog.category) {
       categories.add(blog.category);
+      // 记录分类显示名称
+      if (blog.categoryDisplay) {
+        categoryDisplayMap[blog.category] = blog.categoryDisplay;
+      }
     }
   });
 
@@ -58,7 +65,7 @@ export default function BlogPage() {
                     <Bookmark className="h-3 w-3 text-blue-600" />
                     <Link href={`/category/${encodeURIComponent(blog.category)}`}>
                       <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200 transition-colors">
-                        {blog.category}
+                        {blog.categoryDisplay || blog.category}
                       </span>
                     </Link>
                   </div>
@@ -66,10 +73,10 @@ export default function BlogPage() {
                     <div className="flex items-center gap-1">
                       <Tag className="h-3 w-3 text-gray-500" />
                       <div className="flex flex-wrap gap-1">
-                        {blog.tags.map((tag: string) => (
+                        {blog.tags.map((tag: string, index: number) => (
                           <Link key={tag} href={`/tag/${encodeURIComponent(tag)}`}>
                             <span className="px-2 py-1 text-xs font-medium bg-gray-100 text-gray-800 rounded-md hover:bg-gray-200 transition-colors">
-                              {tag}
+                              {blog.tagsDisplay && blog.tagsDisplay[index] ? blog.tagsDisplay[index] : tag}
                             </span>
                           </Link>
                         ))}
@@ -99,7 +106,7 @@ export default function BlogPage() {
                     href={`/category/${encodeURIComponent(category)}`}
                     className="block py-1 px-2 hover:bg-gray-100 rounded transition-colors text-sm"
                   >
-                    {category}
+                    {categoryDisplayMap[category] || category}
                   </Link>
                 ))}
               </div>

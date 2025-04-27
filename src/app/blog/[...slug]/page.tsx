@@ -146,7 +146,7 @@ export default async function BlogPage(props: BlogsPageProps) {
                 <span className="text-sm text-blue-600">分类:</span>
                 <Link href={`/category/${encodeURIComponent(blog.category)}`}>
                   <span className="px-3 py-1 text-sm font-medium bg-blue-100 text-blue-800 rounded-md hover:bg-blue-200 transition-colors">
-                    {blog.category}
+                    {blog.categoryDisplay || blog.category}
                   </span>
                 </Link>
               </div>
@@ -159,10 +159,10 @@ export default async function BlogPage(props: BlogsPageProps) {
                   <span className="text-sm text-gray-600">标签:</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {blog.tags.map((tag: string) => (
+                  {blog.tags.map((tag: string, index: number) => (
                     <Link key={tag} href={`/tag/${encodeURIComponent(tag)}`}>
                       <span className="px-3 py-1 text-sm font-medium bg-gray-100 text-gray-800 rounded-md hover:bg-gray-200 transition-colors">
-                        {tag}
+                        {blog.tagsDisplay && blog.tagsDisplay[index] ? blog.tagsDisplay[index] : tag}
                       </span>
                     </Link>
                   ))}

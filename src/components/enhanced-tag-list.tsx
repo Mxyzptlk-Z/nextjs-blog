@@ -11,7 +11,7 @@ type ViewMode = 'grid' | 'list'
 type SortMode = 'frequency' | 'name'
 
 export function EnhancedTagList() {
-  const [tags, setTags] = React.useState<Array<{tag: string, count: number}>>([])
+  const [tags, setTags] = React.useState<Array<{tag: string, count: number, displayName?: string}>>([])
   const [searchQuery, setSearchQuery] = React.useState('')
   const [viewMode, setViewMode] = React.useState<ViewMode>('grid')
   const [sortMode, setSortMode] = React.useState<SortMode>('frequency')
@@ -32,9 +32,10 @@ export function EnhancedTagList() {
   const filteredTags = React.useMemo(() => {
     if (!searchQuery.trim()) return tags
     
-    return tags.filter(tag => 
-      tag.tag.toLowerCase().includes(searchQuery.toLowerCase())
-    )
+    return tags.filter(tag => {
+      const searchTarget = tag.displayName || tag.tag
+      return searchTarget.toLowerCase().includes(searchQuery.toLowerCase())
+    })
   }, [tags, searchQuery])
   
   // 根据排序模式排序标签
@@ -134,42 +135,42 @@ export function EnhancedTagList() {
           没有找到匹配的标签
         </div>
       ) : viewMode === 'grid' ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-          {sortedTags.map(({ tag, count }) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          {sortedTags.map((tagItem) => (
             <Link 
-              key={tag} 
-              href={`/tag/${encodeURIComponent(tag)}`}
+              key={tagItem.tag} 
+              href={`/tag/${encodeURIComponent(tagItem.tag)}`}
               className={cn(
                 "flex items-center justify-between p-3 rounded-md border transition-all hover:shadow-md",
-                getTagColorClass(count)
+                getTagColorClass(tagItem.count)
               )}
             >
-              <span className="font-medium truncate">{tag}</span>
+              <span className="font-medium truncate">{tagItem.displayName || tagItem.tag}</span>
               <span className="text-xs px-2 py-1 rounded-full bg-white bg-opacity-70">
-                {count}
+                {tagItem.count}
               </span>
             </Link>
           ))}
         </div>
       ) : (
         <div className="space-y-2">
-          {sortedTags.map(({ tag, count }) => (
+          {sortedTags.map((tagItem) => (
             <Link 
-              key={tag} 
-              href={`/tag/${encodeURIComponent(tag)}`}
+              key={tagItem.tag} 
+              href={`/tag/${encodeURIComponent(tagItem.tag)}`}
               className="flex items-center justify-between p-3 rounded-md border border-gray-100 hover:bg-gray-50 transition-colors"
             >
               <div className="flex items-center gap-2">
                 <div className={cn(
                   "w-3 h-3 rounded-full",
-                  count > 5 ? "bg-blue-500" : 
-                  count > 3 ? "bg-blue-300" : 
-                  count > 1 ? "bg-blue-200" : "bg-gray-300"
+                  tagItem.count > 5 ? "bg-blue-500" : 
+                  tagItem.count > 3 ? "bg-blue-300" : 
+                  tagItem.count > 1 ? "bg-blue-200" : "bg-gray-300"
                 )} />
-                <span>{tag}</span>
+                <span>{tagItem.displayName || tagItem.tag}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-500">{count} 篇文章</span>
+                <span className="text-sm text-gray-500">{tagItem.count} 篇文章</span>
               </div>
             </Link>
           ))}

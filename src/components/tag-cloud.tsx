@@ -8,18 +8,31 @@ import { cn } from '@/lib/utils'
 // 计算标签使用频率
 export function getTagsWithFrequency() {
   const tagFrequency: Record<string, number> = {}
+  // 标签显示名称映射
+  const tagDisplayMap: Record<string, string> = {}
   
   allBlogs.forEach((blog: any) => {
     if (blog.tags && Array.isArray(blog.tags)) {
-      blog.tags.forEach((tag: string) => {
+      blog.tags.forEach((tag: string, index: number) => {
+        // 记录标签频率
         tagFrequency[tag] = (tagFrequency[tag] || 0) + 1
+        
+        // 记录标签显示名称
+        if (blog.tagsDisplay && blog.tagsDisplay[index]) {
+          tagDisplayMap[tag] = blog.tagsDisplay[index]
+        }
       })
     }
   })
   
   // 转换为数组并排序
   const sortedTags = Object.entries(tagFrequency)
-    .map(([tag, count]) => ({ tag, count }))
+    .map(([tag, count]) => ({ 
+      tag, 
+      count,
+      // 使用标签显示名称，如果有的话
+      displayName: tagDisplayMap[tag] || tag 
+    }))
     .sort((a, b) => b.count - a.count)
   
   return sortedTags
@@ -32,7 +45,7 @@ interface TagCloudProps {
   showCount?: boolean
   minFontSize?: number
   maxFontSize?: number
-  customTags?: Array<{tag: string, count: number}>
+  customTags?: Array<{tag: string, count: number, displayName?: string}>
   useFixedSize?: boolean
   fixedSize?: number
 }
@@ -47,7 +60,7 @@ export function TagCloud({
   useFixedSize = false,
   fixedSize = 14
 }: TagCloudProps) {
-  const [tags, setTags] = React.useState<Array<{tag: string, count: number}>>([])  
+  const [tags, setTags] = React.useState<Array<{tag: string, count: number, displayName?: string}>>([])  
   React.useEffect(() => {
     // 如果提供了自定义标签列表，则使用自定义标签
     if (customTags) {
@@ -92,7 +105,7 @@ export function TagCloud({
           style={{ fontSize: `${getFontSize(count)}px` }}
         >
           <span className="whitespace-nowrap">
-            {tag}
+            {tags.find(t => t.tag === tag)?.displayName || tag}
             {showCount && <span className="text-gray-500 text-xs ml-1">({count})</span>}
           </span>
         </Link>
@@ -103,14 +116,14 @@ export function TagCloud({
 
 // 字母索引标签组件
 export function AlphabeticalTagList() {
-  const [groupedTags, setGroupedTags] = React.useState<Record<string, Array<{tag: string, count: number}>>>({})
+  const [groupedTags, setGroupedTags] = React.useState<Record<string, Array<{tag: string, count: number, displayName?: string}>>>({})  
   const [letters, setLetters] = React.useState<string[]>([])
   
   React.useEffect(() => {
     const allTags = getTagsWithFrequency()
     
     // 按字母分组
-    const grouped: Record<string, Array<{tag: string, count: number}>> = {}
+    const grouped: Record<string, Array<{tag: string, count: number, displayName?: string}>> = {}
     
     allTags.forEach(tagItem => {
       const firstLetter = tagItem.tag.charAt(0).toUpperCase()
@@ -157,13 +170,13 @@ export function AlphabeticalTagList() {
           <div key={letter} id={`tag-group-${letter}`} className="scroll-mt-20">
             <h3 className="text-xl font-bold mb-3">{letter}</h3>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-              {groupedTags[letter].map(({ tag, count }) => (
+              {groupedTags[letter].map(({ tag, count, displayName }) => (
                 <Link 
                   key={tag} 
                   href={`/tag/${encodeURIComponent(tag)}`}
                   className="flex items-center justify-between py-1 px-2 rounded hover:bg-gray-100 transition-colors"
                 >
-                  <span>{tag}</span>
+                  <span>{displayName || tag}</span>
                   <span className="text-sm text-gray-500">({count})</span>
                 </Link>
               ))}
