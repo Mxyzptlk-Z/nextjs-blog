@@ -63,8 +63,8 @@ export default async function TagPage({ params }: TagPageProps) {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">标签: {tagDisplay}</h1>
+    <div className="w-full max-w-3xl mx-auto px-4 py-8 overflow-hidden">
+      <h1 className="text-2xl md:text-3xl font-bold mb-8 break-words">标签: {tagDisplay}</h1>
       <p className="text-gray-600 mb-6">该标签下共有 {filteredBlogs.length} 篇文章</p>
       
       <div className="space-y-8">

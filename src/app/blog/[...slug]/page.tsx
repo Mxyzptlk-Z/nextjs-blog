@@ -123,10 +123,10 @@ export default async function BlogPage(props: BlogsPageProps) {
     .slice(0, 5); // 只取前5篇
 
   return (
-    <main className="relative py-6 max-w-full md:max-w-6xl mx-auto lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
-      <div className="max-w-4xl mx-auto w-full px-6">
+    <main className="relative py-6 w-full md:max-w-6xl mx-auto lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+      <div className="w-full mx-auto px-4 sm:px-6 overflow-hidden">
         <div className="my-8">
-          <h1 className="text-[32px] font-bold">{blog.title}</h1>
+          <h1 className="text-2xl md:text-3xl lg:text-[32px] font-bold break-words">{blog.title}</h1>
         </div>
 
         <div className="my-4 space-y-3">
@@ -172,7 +172,7 @@ export default async function BlogPage(props: BlogsPageProps) {
           </div>
         </div>
 
-        <div className="">
+        <div className="overflow-hidden">
           <MDXRemote source={blog.content} components={components} options={options} />
         </div>
 

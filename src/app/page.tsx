@@ -9,14 +9,14 @@ export default function Home() {
     .sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="w-full max-w-3xl mx-auto px-4 py-8 overflow-hidden">
       {/* 个人介绍部分 */}
       <div className="mb-16 space-y-4">
-        <h1 className="text-4xl font-bold">{config.site.title}</h1>
-        <p className="text-md text-gray-600">{config.author.bio}</p>
+        <h1 className="text-3xl md:text-4xl font-bold break-words">{config.site.title}</h1>
+        <p className="text-md text-gray-600 break-words">{config.author.bio}</p>
         
         {/* 社交链接 */}
-        <div className="flex space-x-2 text-gray-600">
+        <div className="flex flex-wrap gap-2 text-gray-600">
           <Link href={config.social.buyMeACoffee} className="underline underline-offset-4">赞赏</Link>
           <span>·</span>
           <Link href={config.social.x} className="underline underline-offset-4">X</Link>
