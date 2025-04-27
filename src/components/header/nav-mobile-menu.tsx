@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/collapsible"
 import { cn } from "@/lib/utils"
 import { menuItems, MenuItem } from "./nav-data"
-import { useCategoriesMenu, useTagsMenu } from "./nav-dynamic-menu"
+import { useCategoriesMenu } from "./nav-dynamic-menu"
 import { config } from "@/lib/config"
 
 const MenuItemComponent: React.FC<{ item: MenuItem; depth?: number }> = ({ item, depth = 0 }) => {
@@ -68,9 +68,8 @@ const MenuItemComponent: React.FC<{ item: MenuItem; depth?: number }> = ({ item,
 export function NavMobileMenu() {
   const [open, setOpen] = React.useState(false)
 
-  // 使用动态生成的分类和标签菜单
+  // 使用动态生成的分类菜单
   const categoriesMenu = useCategoriesMenu();
-  const tagsMenu = useTagsMenu();
 
   // 创建包含动态菜单的完整菜单项列表
   const fullMenuItems = menuItems.filter(item => {

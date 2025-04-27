@@ -3,7 +3,7 @@ import { allBlogs } from "content-collections";
 import Link from "next/link";
 import count from 'word-count'
 import { config } from "@/lib/config";
-import { Tag, Bookmark, ChevronRight } from "lucide-react";
+import { Tag, ChevronRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { TagCloud } from "@/components/tag-cloud";
 

@@ -3,7 +3,7 @@ import { allBlogs } from "content-collections";
 import Link from "next/link";
 import count from 'word-count'
 import { config } from "@/lib/config";
-import { Bookmark, Tag } from "lucide-react";
+import { Bookmark } from "lucide-react";
 import { notFound } from "next/navigation";
 
 type TagPageProps = {

@@ -19,7 +19,6 @@ import { GoToTop } from "@/components/go-to-top"
 import 'katex/dist/katex.min.css';
 import { config } from "@/lib/config";
 import { Bookmark, Tag, Clock, FileText } from "lucide-react";
-import { TagCloud } from "@/components/tag-cloud";
 
 type BlogsPageProps = {
   params: Promise<{slug: string[]}>

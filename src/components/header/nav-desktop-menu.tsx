@@ -14,13 +14,12 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu"
 import { menuItems } from "./nav-data"
-import { useCategoriesMenu, useTagsMenu } from "./nav-dynamic-menu"
+import { useCategoriesMenu } from "./nav-dynamic-menu"
 import { config } from "@/lib/config"
 
 export function NavDesktopMenu() {
-  // 使用动态生成的分类和标签菜单
+  // 使用动态生成的分类菜单
   const categoriesMenu = useCategoriesMenu();
-  const tagsMenu = useTagsMenu();
   
   // 根据配置过滤要显示的菜单项
   const filteredMenuItems = menuItems.filter(item => {
