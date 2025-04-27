@@ -148,7 +148,7 @@ const components = {
   pre: ({ className, ...props }: React.HTMLAttributes<HTMLPreElement>) => (
     <pre
       className={cn(
-        "text-[0.8rem] mt-4",
+        "text-[0.8rem]",
         className
       )}
       {...props}
@@ -192,3 +192,4 @@ const components = {
 }
 
 export { components }
+
