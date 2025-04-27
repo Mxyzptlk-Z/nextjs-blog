@@ -8,7 +8,7 @@ import { notFound } from "next/navigation";
 import { TagCloud } from "@/components/tag-cloud";
 
 type CategoryPageProps = {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {

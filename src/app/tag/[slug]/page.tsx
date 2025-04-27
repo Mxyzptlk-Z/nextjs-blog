@@ -7,7 +7,7 @@ import { Bookmark } from "lucide-react";
 import { notFound } from "next/navigation";
 
 type TagPageProps = {
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }
 
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
