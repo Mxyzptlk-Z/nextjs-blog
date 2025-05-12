@@ -1,9 +1,9 @@
 export const config = {
   site: {
-    title: "Nextjs Blog Template",
-    name: "Nextjs Blog Template",
-    description: "Nextjs Blog Template",
-    keywords: ["Nextjs Blog Template", "AI", "Full Stack Developer"],
+    title: "Nextjs Personal Blog",
+    name: "Nextjs Personal Blog",
+    description: "Nextjs Personal Blog",
+    keywords: ["Nextjs Blog", "Quant", "AI", "Full Stack Developer"],
     url: "https://xxx.com",
     baseUrl: "https://xxx.com",
     image: "https://xxx.com/og-image.png",
@@ -25,21 +25,21 @@ export const config = {
     },
   },
   author: {
-    name: "Your Name",
-    email: "your.email@example.com",
-    bio: "这是一个 Nextjs 博客模板",
+    name: "LIG",
+    email: "ericcccc_z@outlook.com",
+    bio: "这是一个 Nextjs 个人博客",
   },
   social: {
-    github: "https://github.com/xxx",
-    x: "https://x.com/xxx",
-    xiaohongshu: "https://www.xiaohongshu.com/user/profile/xxx",
-    wechat: "https://storage.xxx.com/images/wechat-official-account.png",
-    buyMeACoffee: "https://www.buymeacoffee.com/xxx",
+    github: "https://github.com/Mxyzptlk-Z",
+    x: "https://x.com/LIG17z",
+    xiaohongshu: "https://www.xiaohongshu.com/user/profile/608e3e73000000000101c4c9",
+    wechat: "/images/wechat-public.png",
+    buyMeACoffee: "https://www.buymeacoffee.com/lig17",
   },
   giscus: {
-    repo: "guangzhengli/hugo-ladder-exampleSite",
-    repoId: "R_kgDOHyVOjg",
-    categoryId: "DIC_kwDOHyVOjs4CQsH7",
+    repo: "Mxyzptlk-Z/nextjs-blog",
+    repoId: "R_kgDOOojZow",
+    categoryId: "DIC_kwDOOojZo84CqDXK",
   },
   navigation: {
     main: [
